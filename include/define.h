@@ -1,0 +1,13 @@
+// state edge detector
+#define StateEdge1 101
+#define StateEdge2 102
+// state debouncing
+#define StateDebounce1 201
+#define StateDebounce2 202
+#define StateDebounce3 203
+#define StateDebounce4 204
+// state running led
+#define First 301
+#define Second 302
+#define Third 303
+#define Fourth 304
