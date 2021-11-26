@@ -83,13 +83,17 @@ void debouncing(int *state, int *input, int *output)
         }
         break;
     case StateDebounce3:
-        *output = 1;
         if (*input == 0)
         {
             *state = StateDebounce4;
             counter = 0;
             *output = 0;
         }
+        else
+        {
+            *output = 1;
+        }
+
         break;
     case StateDebounce4:
         if (counter < 100)
