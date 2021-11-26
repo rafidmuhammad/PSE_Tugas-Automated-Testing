@@ -1,5 +1,12 @@
 #include <define.h>
-#include "fsm.h"
+#include <fsm.h>
+
+void fsm_init(int *state_edge, int *state_debounce, int *state_running)
+{
+    *state_edge = StateEdge1;
+    *state_debounce = StateDebounce1;
+    *state_running = First;
+}
 
 /**
  * @brief unutk melakukan pendeteksian rising edge
@@ -23,7 +30,7 @@ void edgedetector(int *state, int *input, int *output)
     }
     case StateEdge2:
     {
-        if (input == 0)
+        if (*input == 0)
         {
             *state = StateEdge1;
             *output = 0;
