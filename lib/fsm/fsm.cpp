@@ -100,7 +100,6 @@ void debouncing(int *state, int *input, int *output)
         else
         {
             *state = StateDebounce1;
-            *output = 0;
         }
         break;
     default:
