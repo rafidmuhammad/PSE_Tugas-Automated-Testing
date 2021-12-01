@@ -1,11 +1,10 @@
 #include <define.h>
 #include <fsm.h>
 
-void fsm_init(int *state_edge, int *state_debounce, int *state_running)
+void fsm_init(int *state_edge, int *state_debounce)
 {
     *state_edge = StateEdge1;
     *state_debounce = StateDebounce1;
-    *state_running = First;
 }
 
 /**
@@ -56,7 +55,7 @@ void edgedetector(int *state, int *input, int *output)
 
 void debouncing(int *state, int *input, int *output)
 {
-    int counter;
+    static int counter;
     switch (*state)
     {
     case StateDebounce1:
@@ -131,11 +130,23 @@ void running(int *inputR, int *inputL, int *state, int *output)
     case First:
         if (*inputR == 1)
         {
+            *state = dummyFirst;
+        }
+        break;
+    case dummyFirst:
+        if (*inputR == 0)
+        {
             *state = Second;
         }
         break;
     case Second:
         if (*inputR == 1)
+        {
+            *state = dummySecond;
+        }
+        break;
+    case dummySecond:
+        if (*inputR == 0)
         {
             *state = Third;
         }
@@ -143,11 +154,23 @@ void running(int *inputR, int *inputL, int *state, int *output)
     case Third:
         if (*inputR == 1)
         {
+            *state = dummyThird;
+        }
+        break;
+    case dummyThird:
+        if (*inputR == 0)
+        {
             *state = Fourth;
         }
         break;
     case Fourth:
         if (*inputR == 1)
+        {
+            *state = dummyFourth;
+        }
+        break;
+    case dummyFourth:
+        if (*inputR == 0)
         {
             *state = First;
         }
@@ -162,32 +185,54 @@ void running(int *inputR, int *inputL, int *state, int *output)
     case First:
         if (*inputL == 1)
         {
-            *state = Fourth;
+            *state = dummyFourthLeft;
+        }
+        break;
+    case dummyFirstL:
+        if (*inputL == 0)
+        {
+            *state = First;
         }
         break;
     case Second:
         if (*inputL == 1)
         {
-            *state = First;
+            *state = dummyFirstL;
+        }
+        break;
+    case dummySecondL:
+        if (*inputL == 0)
+        {
+            *state = Second;
         }
         break;
     case Third:
         if (*inputL == 1)
         {
-            *state = Second;
+            *state = dummySecondL;
+        }
+        break;
+    case dummyThirdL:
+        if (*inputL == 0)
+        {
+            *state = Third;
         }
         break;
     case Fourth:
         if (*inputL == 1)
         {
-            *state = Third;
+            *state = dummyThirdL;
         }
         break;
-
+    case dummyFourthLeft:
+        if (*inputL == 0)
+        {
+            *state = Fourth;
+        }
+        break;
     default:
         break;
     }
-
     // output state akan diubah menjadi bit
     switch (*state)
     {
